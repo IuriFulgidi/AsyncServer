@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Fulgidi_SocketAsync;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +22,27 @@ namespace AsyncServer
     /// </summary>
     public partial class MainWindow : Window
     {
+        AsyncSocketServer mserver;
         public MainWindow()
         {
             InitializeComponent();
+            mserver = new AsyncSocketServer();
+            Thread invioInf = new Thread(()=>InviaInf());
         }
+
+        private void btnAvvia_Click(object sender, RoutedEventArgs e)
+        {
+            mserver.InizioAscolto();
+        }
+
+        public void InviaInf()
+        {
+            while(true)
+            {
+                mserver.SendToAll(DateTime.Today.ToString());
+                Thread.Sleep(10000);
+            }
+        }
+
     }
 }

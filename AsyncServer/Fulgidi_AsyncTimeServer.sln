@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncServer", "AsyncServer\AsyncServer.csproj", "{9E099582-79B9-4F31-A045-A20548B9BFB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncTimeServer", "AsyncServer\AsyncTimeServer.csproj", "{9E099582-79B9-4F31-A045-A20548B9BFB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketAsync", "SocketAsync\SocketAsync.csproj", "{778F819C-D29D-4690-964F-D7D92A607066}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fulgidi_SocketAsyncLib", "SocketAsync\Fulgidi_SocketAsyncLib.csproj", "{778F819C-D29D-4690-964F-D7D92A607066}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

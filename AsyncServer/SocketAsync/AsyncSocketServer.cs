@@ -8,33 +8,53 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocketAsync
+namespace Fulgidi_SocketAsync
 {
     public class AsyncSocketServer
     {
         IPAddress mIP;
-        TcpClient client;
-        TcpListener mserver;
-
-
+        int mPort;
+        TcpListener mServer;
         bool continua;
-        public async void InizioAscolto()
+
+        List<TcpClient> mClients;
+
+        public AsyncSocketServer()
         {
-            mIP = ipAddr;
-            mPort = port;
+            mClients = new List<TcpClient>();
+        }
 
-            Debug.WriteLine($"avvio il server. IP:{mIP} - Porta: {nPort}");
+        // Mette in ascolto il server
+        public async void InizioAscolto(IPAddress ipaddr = null, int port = 23000)
+        {
+            //faccio dei controlli su IPAddress e sulle porte
+            if (ipaddr == null)
+            {
+                //mIP = IPAddress.Any;
+                ipaddr = IPAddress.Any;
+            }
+            if (port < 0 || port > 65535)
+            {
+                //mPort = 23000;
+                port = 23000;
+            }
 
+            mIP = ipaddr;//aggiunte
+            mPort = port;//aggiunte
+
+            Debug.WriteLine($"Avvio il server. IP: {mIP.ToString()} - Porta: {mPort.ToString()}");
             //creare l'oggetto server
-            mserver = new TcpListener(mIP, mPort);
+            mServer = new TcpListener(mIP, mPort);
 
             //avviare il server
-            mserver.Start();
-            while(true)
+            mServer.Start();
+            continua = true;
+            while (continua)
             {
                 //mi metto in ascolto
-                TcpClient client = await mserver.AcceptTcpClientAsync();
-                Debug.WriteLine("Client connesso:" + client.Client.RemoteEndPoint);
+                TcpClient client = await mServer.AcceptTcpClientAsync();
+                mClients.Add(client);
+                Debug.WriteLine($"Client connessi: {mClients.Count()}, Client appena connesso:{ client.Client.RemoteEndPoint}");
 
                 RiceviMessaggi(client);
             }
@@ -43,7 +63,6 @@ namespace SocketAsync
         {
             NetworkStream stream = null;
             StreamReader reader = null;
-
             try
             {
                 stream = client.GetStream();
@@ -57,16 +76,65 @@ namespace SocketAsync
                     int nBytes = await reader.ReadAsync(buff, 0, buff.Length);
                     if (nBytes == 0)
                     {
-                        Debug.WriteLine("client disconnesso.");
+                        RemoveClient(client);
+                        Debug.WriteLine("Client disconnesso.");
                         break;
                     }
                     string recvMessage = new string(buff);
-                    Debug.WriteLine($"Returned bytes: {nBytes}, Messaggio {recvMessage}");
+                    Debug.WriteLine($"Returned bytes: {nBytes}. Messaggio: {recvMessage}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void RemoveClient(TcpClient client)
+        {
+            if (mClients.Contains(client))
+            {
+                mClients.Remove(client);
+            }
+        }
+
+        public void SendToAll(string messaggio)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(messaggio))
+                    return;
+
+                byte[] buff = Encoding.ASCII.GetBytes(messaggio);
+
+                foreach (TcpClient client in mClients)
+                {
+                    client.GetStream().WriteAsync(buff, 0, buff.Length);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Errore:" + ex.Message);
+            }
+        }
 
+        public void CloseConnection()
+        {
+            try
+            {
+                foreach (TcpClient client in mClients)
+                {
+                    client.Close();
+                    RemoveClient(client);
+                }
+
+                mServer.Stop();
+                mServer = null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Errore:" + ex.Message);
             }
         }
     }

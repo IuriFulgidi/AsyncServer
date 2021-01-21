@@ -1,0 +1,6 @@
+E:\Projects\AsyncServer\AsyncServer\SocketAsync\bin\Debug\SocketAsync.dll
+E:\Projects\AsyncServer\AsyncServer\SocketAsync\bin\Debug\SocketAsync.pdb
+E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\Fulgidi_SocketAsyncLib.csprojAssemblyReference.cache
+E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\Fulgidi_SocketAsyncLib.csproj.CoreCompileInputs.cache
+E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\SocketAsync.dll
+E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\SocketAsync.pdb
