@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AsyncServer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="237.32" Width="333.141">
     <Grid>
-        <Button x:Name="btnAvvia" Content="Avvia server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="222" Height="117" Click="btnAvvia_Click"/>
+        <Button x:Name="btnAvvia" Content="Avvia server" HorizontalAlignment="Left" Margin="50,39,0,0" VerticalAlignment="Top" Width="222" Height="117" Click="btnAvvia_Click"/>
 
     </Grid>
 </Window>

@@ -28,6 +28,7 @@ namespace AsyncServer
             InitializeComponent();
             mserver = new AsyncSocketServer();
             Thread invioInf = new Thread(()=>InviaInf());
+            invioInf.Start();
         }
 
         private void btnAvvia_Click(object sender, RoutedEventArgs e)
@@ -39,10 +40,9 @@ namespace AsyncServer
         {
             while(true)
             {
-                mserver.SendToAll(DateTime.Today.ToString());
+                mserver.SendToAll(DateTime.Today.ToString()+"\n");
                 Thread.Sleep(10000);
             }
         }
-
     }
 }

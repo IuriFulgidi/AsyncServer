@@ -25,22 +25,10 @@ namespace Fulgidi_SocketAsync
         }
 
         // Mette in ascolto il server
-        public async void InizioAscolto(IPAddress ipaddr = null, int port = 23000)
+        public async void InizioAscolto()
         {
-            //faccio dei controlli su IPAddress e sulle porte
-            if (ipaddr == null)
-            {
-                //mIP = IPAddress.Any;
-                ipaddr = IPAddress.Any;
-            }
-            if (port < 0 || port > 65535)
-            {
-                //mPort = 23000;
-                port = 23000;
-            }
-
-            mIP = ipaddr;//aggiunte
-            mPort = port;//aggiunte
+            mIP = IPAddress.Any;
+            mPort = 23000;
 
             Debug.WriteLine($"Avvio il server. IP: {mIP.ToString()} - Porta: {mPort.ToString()}");
             //creare l'oggetto server
@@ -59,7 +47,7 @@ namespace Fulgidi_SocketAsync
                 RiceviMessaggi(client);
             }
         }
-        public async void RiceviMessaggi(TcpClient client)
+        private async void RiceviMessaggi(TcpClient client)
         {
             NetworkStream stream = null;
             StreamReader reader = null;
@@ -91,6 +79,7 @@ namespace Fulgidi_SocketAsync
             }
         }
 
+
         private void RemoveClient(TcpClient client)
         {
             if (mClients.Contains(client))
@@ -112,6 +101,21 @@ namespace Fulgidi_SocketAsync
                 {
                     client.GetStream().WriteAsync(buff, 0, buff.Length);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Errore:" + ex.Message);
+            }
+        }
+        public void SendToOne(TcpClient client, string messaggio)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(messaggio))
+                    return;
+
+                byte[] buff = Encoding.ASCII.GetBytes(messaggio);
+                client.GetStream().WriteAsync(buff, 0, buff.Length);
             }
             catch (Exception ex)
             {
