@@ -43,7 +43,7 @@ namespace Fulgidi_SocketAsync
                 TcpClient client = await mServer.AcceptTcpClientAsync();
                 mClients.Add(client);
                 Debug.WriteLine($"Client connessi: {mClients.Count()}, Client appena connesso:{ client.Client.RemoteEndPoint}");
-                SendToOne(client, "­scrivere 'time' per ricevere l'ora e 'date' per la data\n");
+                SendToOne(client, "­scrivere 'time' per ricevere l'ora e 'date' per la data\n"); 
                 RiceviMessaggi(client);
             }
         }
