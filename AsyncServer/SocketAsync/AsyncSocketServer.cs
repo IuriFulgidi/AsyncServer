@@ -43,7 +43,7 @@ namespace Fulgidi_SocketAsync
                 TcpClient client = await mServer.AcceptTcpClientAsync();
                 mClients.Add(client);
                 Debug.WriteLine($"Client connessi: {mClients.Count()}, Client appena connesso:{ client.Client.RemoteEndPoint}");
-
+                SendToOne(client, "­scrivere 'time' per ricevere l'ora e 'date' per la data\n");
                 RiceviMessaggi(client);
             }
         }
@@ -68,8 +68,10 @@ namespace Fulgidi_SocketAsync
                         Debug.WriteLine("Client disconnesso.");
                         break;
                     }
-                    string recvMessage = new string(buff);
+                    string recvMessage = new string(buff,0,nBytes).ToLower();
                     Debug.WriteLine($"Returned bytes: {nBytes}. Messaggio: {recvMessage}");
+
+                    Rispondi(client, recvMessage);
                 }
 
             }
@@ -79,6 +81,20 @@ namespace Fulgidi_SocketAsync
             }
         }
 
+        private void Rispondi(TcpClient client, string msg)
+        {
+            string risposta;
+
+            if (msg == "time")
+                risposta = DateTime.Now.ToShortTimeString();
+            else if (msg == "date")
+                risposta = DateTime.Today.ToShortDateString();
+            else
+                risposta = "non ho capito";
+
+            risposta += "\n";
+            SendToOne(client, risposta);
+        }
 
         private void RemoveClient(TcpClient client)
         {

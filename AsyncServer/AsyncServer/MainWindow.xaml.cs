@@ -27,20 +27,21 @@ namespace AsyncServer
         {
             InitializeComponent();
             mserver = new AsyncSocketServer();
-            Thread invioInf = new Thread(()=>InviaInf());
-            invioInf.Start();
         }
 
         private void btnAvvia_Click(object sender, RoutedEventArgs e)
         {
             mserver.InizioAscolto();
+
+            Thread invioInf = new Thread(() => InviaInf());
+            invioInf.Start();
         }
 
         public void InviaInf()
         {
             while(true)
             {
-                mserver.SendToAll(DateTime.Today.ToString()+"\n");
+                mserver.SendToAll(DateTime.Now.ToString()+"\n");
                 Thread.Sleep(10000);
             }
         }
