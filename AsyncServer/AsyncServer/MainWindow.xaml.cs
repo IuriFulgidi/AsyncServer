@@ -23,6 +23,7 @@ namespace AsyncServer
     public partial class MainWindow : Window
     {
         AsyncSocketServer mserver;
+        bool serverOn = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,10 +32,17 @@ namespace AsyncServer
 
         private void btnAvvia_Click(object sender, RoutedEventArgs e)
         {
-            mserver.InizioAscolto();
+            if (!serverOn)
+            {
+                mserver.InizioAscolto();
 
-            Thread invioInf = new Thread(() => InviaInf());
-            invioInf.Start();
+                Thread invioInf = new Thread(() => InviaInf());
+                invioInf.Start();
+
+                serverOn = true;
+            }
+            else
+                MessageBox.Show("Il server è stato già avviato","Attenzione!",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
         public void InviaInf()
@@ -44,6 +52,25 @@ namespace AsyncServer
                 mserver.SendToAll(DateTime.Now.ToString()+"\n");
                 Thread.Sleep(10000);
             }
+        }
+
+        //prova di disconnessione
+        //private void btnDisconnetti_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var risp = MessageBox.Show("Il server verrà disconnesso da tutti client,procedere?", "Attenzione!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        //    if (risp == MessageBoxResult.Yes)
+        //        mserver.CloseConnection();
+        //    else
+        //        MessageBox.Show("Operazione annullata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        //}
+
+        private void BtnBroadcast_Click(object sender, RoutedEventArgs e)
+        {
+            string msg = txtBroadcast.Text;
+            if (msg != null && msg != "")
+                mserver.SendToAll("msg");
+            else
+                MessageBox.Show("Scrivere il messaggio da inviare", "Attenzione", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
