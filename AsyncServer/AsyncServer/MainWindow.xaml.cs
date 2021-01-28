@@ -55,20 +55,20 @@ namespace AsyncServer
         }
 
         //prova di disconnessione
-        //private void btnDisconnetti_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var risp = MessageBox.Show("Il server verrà disconnesso da tutti client,procedere?", "Attenzione!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-        //    if (risp == MessageBoxResult.Yes)
-        //        mserver.CloseConnection();
-        //    else
-        //        MessageBox.Show("Operazione annullata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-        //}
+        private void btnDisconnetti_Click(object sender, RoutedEventArgs e)
+        {
+            var risp = MessageBox.Show("Il server verrà disconnesso da tutti client,procedere?", "Attenzione!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (risp == MessageBoxResult.Yes)
+                mserver.CloseConnection();
+            else
+                MessageBox.Show("Operazione annullata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
         private void BtnBroadcast_Click(object sender, RoutedEventArgs e)
         {
             string msg = txtBroadcast.Text;
             if (msg != null && msg != "")
-                mserver.SendToAll("msg");
+                mserver.SendToAll(msg);
             else
                 MessageBox.Show("Scrivere il messaggio da inviare", "Attenzione", MessageBoxButton.OK, MessageBoxImage.Error);
         }

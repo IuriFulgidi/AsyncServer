@@ -16,7 +16,6 @@ namespace Fulgidi_SocketAsync
         int mPort;
         TcpListener mServer;
         bool continua;
-
         List<TcpClient> mClients;
 
         public AsyncSocketServer()
@@ -73,7 +72,6 @@ namespace Fulgidi_SocketAsync
 
                     Rispondi(client, recvMessage);
                 }
-
             }
             catch (Exception ex)
             {
@@ -96,12 +94,10 @@ namespace Fulgidi_SocketAsync
             SendToOne(client, risposta);
         }
 
-        private void RemoveClient(TcpClient client)
+        public void RemoveClient(TcpClient client)
         {
             if (mClients.Contains(client))
-            {
                 mClients.Remove(client);
-            }
         }
 
         public void SendToAll(string messaggio)
@@ -114,9 +110,7 @@ namespace Fulgidi_SocketAsync
                 byte[] buff = Encoding.ASCII.GetBytes(messaggio);
 
                 foreach (TcpClient client in mClients)
-                {
                     client.GetStream().WriteAsync(buff, 0, buff.Length);
-                }
             }
             catch (Exception ex)
             {
@@ -138,7 +132,6 @@ namespace Fulgidi_SocketAsync
                 Console.WriteLine("Errore:" + ex.Message);
             }
         }
-
         public void CloseConnection()
         {
             try
