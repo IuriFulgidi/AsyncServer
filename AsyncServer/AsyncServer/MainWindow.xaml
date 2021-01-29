@@ -13,5 +13,6 @@
         <Button x:Name="btnAvvia" Content="Avvia server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="136" Height="66" Click="btnAvvia_Click"/>
         <Button x:Name="BtnBroadcast" Content="Invia a tutti" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top" Width="136" Height="32" Click="BtnBroadcast_Click"/>
         <TextBox x:Name="txtBroadcast" HorizontalAlignment="Left" Height="66" Margin="10,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="136" RenderTransformOrigin="0.5,0.5" SpellCheck.IsEnabled="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <Button x:Name="btnDisconnetti" Content="Disconnetti un client" HorizontalAlignment="Left" Margin="277,10,0,0" VerticalAlignment="Top" Width="136" Click="btnDisconnetti_Click" Height="66"/>
     </Grid>
 </Window>

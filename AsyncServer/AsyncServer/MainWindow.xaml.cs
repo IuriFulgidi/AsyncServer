@@ -34,18 +34,21 @@ namespace AsyncServer
         {
             if (!serverOn)
             {
+                serverOn = true;
                 mserver.InizioAscolto();
 
-                Thread invioInf = new Thread(() => InviaInf());
-                invioInf.Start();
-
-                serverOn = true;
+                //avvio thread
+                Thread sendDateTime = new Thread(() => SendDateTime());
+                sendDateTime.Start();
             }
             else
                 MessageBox.Show("Il server è stato già avviato","Attenzione!",MessageBoxButton.OK,MessageBoxImage.Warning);
         }
 
-        public void InviaInf()
+        /// <summary>
+        /// inva un messaggio con data e tempo ogni dieci secondi
+        /// </summary>
+        public void SendDateTime()
         {
             while(true)
             {
@@ -54,12 +57,14 @@ namespace AsyncServer
             }
         }
 
-        //prova di disconnessione
         private void btnDisconnetti_Click(object sender, RoutedEventArgs e)
         {
-            var risp = MessageBox.Show("Il server verrà disconnesso da tutti client,procedere?", "Attenzione!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var risp = MessageBox.Show("Il server verrà disconnesso dal primo client connesso client,procedere?", "Attenzione!", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (risp == MessageBoxResult.Yes)
+            {
                 mserver.CloseConnection();
+                serverOn = false;
+            }   
             else
                 MessageBox.Show("Operazione annullata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -67,7 +72,7 @@ namespace AsyncServer
         private void BtnBroadcast_Click(object sender, RoutedEventArgs e)
         {
             string msg = txtBroadcast.Text;
-            if (msg != null && msg != "")
+            if (!string.IsNullOrEmpty(msg))
                 mserver.SendToAll(msg);
             else
                 MessageBox.Show("Scrivere il messaggio da inviare", "Attenzione", MessageBoxButton.OK, MessageBoxImage.Error);

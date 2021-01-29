@@ -23,7 +23,9 @@ namespace Fulgidi_SocketAsync
             mClients = new List<TcpClient>();
         }
 
-        // Mette in ascolto il server
+        /// <summary>
+        /// Avvia il server con ip random e porta 23000
+        /// </summary>
         public async void InizioAscolto()
         {
             mIP = IPAddress.Any;
@@ -46,12 +48,15 @@ namespace Fulgidi_SocketAsync
                 RiceviMessaggi(client);
             }
         }
+
         private async void RiceviMessaggi(TcpClient client)
         {
+            //si definiscono le variabili di lettura messaggio
             NetworkStream stream = null;
             StreamReader reader = null;
             try
             {
+                //inizializzano le variabili rimaste
                 stream = client.GetStream();
                 reader = new StreamReader(stream);
                 char[] buff = new char[512];
@@ -70,6 +75,7 @@ namespace Fulgidi_SocketAsync
                     string recvMessage = new string(buff,0,nBytes).ToLower();
                     Debug.WriteLine($"Returned bytes: {nBytes}. Messaggio: {recvMessage}");
 
+                    //si invia la risposta
                     Rispondi(client, recvMessage);
                 }
             }
@@ -79,6 +85,11 @@ namespace Fulgidi_SocketAsync
             }
         }
 
+        /// <summary>
+        /// invia la risposta del TimeServer, ad un client, in base al messaggio ricevuto
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="messaggio"></param>
         private void Rispondi(TcpClient client, string msg)
         {
             string risposta;
@@ -94,12 +105,10 @@ namespace Fulgidi_SocketAsync
             SendToOne(client, risposta);
         }
 
-        public void RemoveClient(TcpClient client)
-        {
-            if (mClients.Contains(client))
-                mClients.Remove(client);
-        }
-
+        /// <summary>
+        /// Invia un messaggio in broadcast, a tutti i client connessi
+        /// </summary>
+        /// <param name="messaggio"></param>
         public void SendToAll(string messaggio)
         {
             try
@@ -114,9 +123,15 @@ namespace Fulgidi_SocketAsync
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Errore:" + ex.Message);
+                Debug.WriteLine("Errore:" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// invia un messaggio al client specificato
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="messaggio"></param>
         public void SendToOne(TcpClient client, string messaggio)
         {
             try
@@ -129,18 +144,32 @@ namespace Fulgidi_SocketAsync
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Errore:" + ex.Message);
+                Debug.WriteLine("Errore:" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// chiude la connessione cin tutti i client
+        /// </summary>
         public void CloseConnection()
         {
             try
             {
+                //si controlla che la lista non sia vuota
+                if (mClients.Count() < 1)
+                {
+                    Debug.WriteLine("lista vuota");
+                    return;
+                }
+
+                //si chiude la connassione
                 foreach (TcpClient client in mClients)
                 {
                     client.Close();
                     RemoveClient(client);
                 }
+
+                //si spenge il server
                 mServer.Stop();
                 mServer = null;
                 continua = false;
@@ -149,6 +178,16 @@ namespace Fulgidi_SocketAsync
             {
                 Debug.WriteLine("Errore:" + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// rimuove il client dalla lista
+        /// </summary>
+        /// <param name="client"></param>
+        public void RemoveClient(TcpClient client)
+        {
+            if (mClients.Contains(client))
+                mClients.Remove(client);
         }
     }
 }

@@ -4,3 +4,8 @@ E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\Fulgidi_SocketAsyncLib
 E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\Fulgidi_SocketAsyncLib.csproj.CoreCompileInputs.cache
 E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\SocketAsync.dll
 E:\Projects\AsyncServer\AsyncServer\SocketAsync\obj\Debug\SocketAsync.pdb
+C:\Users\studenti\Source\Repos\AsyncServer\AsyncServer\SocketAsync\bin\Debug\SocketAsync.dll
+C:\Users\studenti\Source\Repos\AsyncServer\AsyncServer\SocketAsync\bin\Debug\SocketAsync.pdb
+C:\Users\studenti\Source\Repos\AsyncServer\AsyncServer\SocketAsync\obj\Debug\Fulgidi_SocketAsyncLib.csprojAssemblyReference.cache
+C:\Users\studenti\Source\Repos\AsyncServer\AsyncServer\SocketAsync\obj\Debug\SocketAsync.dll
+C:\Users\studenti\Source\Repos\AsyncServer\AsyncServer\SocketAsync\obj\Debug\SocketAsync.pdb
